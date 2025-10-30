@@ -1,0 +1,159 @@
+---
+title: "Task1"
+author: "Terézia Balážová"
+date: "10/01/2024"
+format:
+  html:
+    embed-resources: true
+editor: source
+---
+
+## Atomic types _ LONDON
+
+London
+
+```{r}
+# code for solving task
+
+# numeric
+Population <- 8945130
+size_city <- 1.572 
+metropolitan_region <- 8.382
+Population_imigrants <- 3575759
+
+# integer
+weather <- 14L
+Postcode_areas <- 22L
+boroughs <- 32L
+
+# logical
+ has_Thames<- TRUE
+ is_metropolis <-TRUE
+ has_Seine <- FALSE
+ is_in_France <- FALSE
+
+# character
+official_name <- "London"
+historic_names <- "Londinium"
+country <- "England"
+
+cat("city",official_name,"in",country,"was historricaly called",historic_names,"has population",Population,"has imgrants", Population_imigrants, "has span", size_city,"has size as region",metropolitan_region,"has weather", weather,"has areas",boroughs,"with",Postcode_areas,"has_Thames",TRUE,"is_metropolis",TRUE,"has_Seine",FALSE,"is_in_France", FALSE)
+
+```
+
+
+## Vectors
+
+Question description
+
+```{r}
+# code for solving task
+
+numeric_vec1 <- c(Population,Population_imigrants,size_city,metropolitan_region,weather,Postcode_areas,boroughs)
+numeric_vec1
+
+sequence_vectt2 <- seq(from=55,to=100,by=10)
+sequence_vectt2
+
+logical_vect3 <- sample(c(TRUE, FALSE), 10, replace = TRUE)
+logical_vect3  
+
+London_vectors = c(numeric_vec1,sequence_vectt2,logical_vect3)
+London_vectors
+
+```
+
+## Matrix
+
+```{r}
+London_metrix <- matrix(sample(-50:50,9,replace = TRUE), nrow = 3, ncol = 3)
+rownames(London_metrix)<-c("Trafalgar1","Kings_cross2","Coven_gardens3")
+rownames
+colnames(London_metrix)<-c("padington_1","Kensigton_2","Victoria_3")
+
+rowMeans(London_metrix)
+colMeans(London_metrix)
+
+```
+
+## List
+
+```{r}
+London_list<- list(
+Population = 8945130,
+size_city = 1.572,
+metropolitan_region = 8.382,
+Population_imigrants = 3575759,
+weather = 14L,
+Postcode_areas = 22L,
+boroughs = 32L,
+ has_Thames = TRUE,
+ is_metropolis =TRUE,
+ has_Seine = FALSE,
+ is_in_France = FALSE,
+official_name = "London",
+historic_names = "Londinium",
+country = "England",
+sum_vectors = London_vectors,
+full_metrix = London_metrix,
+description = "London si a city in England, has river,32 boroughs and 22 post areas."
+)
+
+```
+
+
+## Factor
+
+```{r}
+size_factor <- factor(c("metropola","region","country"),levels = c("metropola","region","country"), ordered = TRUE)
+size_factor
+gender_factor<- factor(c("female","male"))
+gender_factor
+number_factor<-factor(c("small","medium","big","huge"),levels = c("small","medium","big","huge"),ordered=TRUE)
+number_factor
+age_factor<- factor(c("child","young_adult", "aduld","senior"), levels = c("child","young_adult", "aduld","senior"),ordered = TRUE)
+age_factor
+class_factor <-factor(c("working_class","midel_class","upper_class"), levels = c("working_class","midel_class","upper_class") ,ordered = TRUE)
+class_factor 
+
+table(size_factor)
+
+table(gender_factor)
+
+table(number_factor)
+
+table(age_factor)
+
+table(class_factor)
+```
+
+## Data frame
+
+```{r}
+# data frame
+Air_trafic <-data.frame(
+  
+  Airports = c("Heathrow","Gatwick","Stansted","Luton","Southend","London_City"),
+  
+  locations = c("Hillingdon","West_Sussex","Essex","Bedfordshire","Newham","Essex"),
+  
+  take_offs = c(1300,350,1141,140,7,135),
+  
+  long_flights = c(TRUE,TRUE,TRUE,FALSE,FALSE,FALSE),
+  
+  category = c("huge", "big","huge","medium","small","medium" )
+)
+
+#renames
+colnames(Air_trafic)<-c("London_Airports","airport_location","flight_takeoffs","type_of_flight","airport_size")
+
+str(Air_trafic)
+
+summary(Air_trafic)
+
+# new collum
+Air_trafic$Density <-ifelse(Air_trafic$flight_takeoffs>1000, "high","low")
+
+Air_trafic
+```
+
