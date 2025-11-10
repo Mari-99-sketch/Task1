@@ -1,0 +1,108 @@
+---
+title: "Task 3"
+author: "Terézia Balážová"
+date: "9.11.2025"
+format:
+  html:
+    embed-resources: true
+editor: source
+---
+## TASK 3
+
+London
+
+#import real data
+
+```{r}
+library(dplyr)
+library(readxl)
+```
+```{r}
+LONDON_real_data <- read.csv("london-borough-profiles-2016 Data set.csv")
+```
+
+# inspect real data London
+```{r}
+glimpse(LONDON_real_data)
+
+head(LONDON_real_data,10)
+
+summary(LONDON_real_data,10)
+```
+
+# The Interrogation
+
+```{r}
+# 1.Select all areas that are located in Inner London.
+inner_London <- LONDON_real_data |>
+  select(Area.name,Inner..Outer.London)|>
+  filter(Inner..Outer.London =="Inner London")
+  
+head(inner_London,10)
+```
+```{r}
+# 2.what is the largest migrant population?
+migrant_p_London <- LONDON_real_data |>
+  select(Area.name,Largest.migrant.population.by.country.of.birth..2011. ,X..of.largest.migrant.population..2011.)|>
+  
+arrange(desc(X..of.largest.migrant.population..2011.))|>
+  
+head(10)
+
+colnames(migrant_p_London) <- c("Area","Migrant population_A",
+                               "percento_ m.p.")
+
+str(migrant_p_London)
+```
+```{r}
+# 3.what is the average age of highest population in area, in 2016
+highest_population_age <- LONDON_real_data|>
+  select(Average.Age..2016,Area.name,GLA.Population.Estimate.2016)|>
+  arrange(desc(Average.Age..2016))|>
+  top_n(10)
+highest_population_age
+```
+
+```{r}
+# 4.how many household are in the area,convert to numeric.
+ Number_of_households <- LONDON_real_data|>
+    mutate(household_n = gsub(",", ".", GLA.Population.Estimate.2016 ),
+           average_household = as.numeric(household_n))|>
+    select(Area.name,household_n,average_household,GLA.Population.Estimate.2016)|>
+    arrange(desc(household_n))|>
+    head(10)
+
+  Number_of_households
+```
+
+```{r}
+# 5. Income for households in London
+
+Income<-LONDON_real_data|>
+  select( Area.name,Gross.Annual.Pay...2015.,Gross.Annual.Pay...Male..2015.,Gross.Annual.Pay...Female..2015.,Modelled.Household.median.income.estimates.2012.13)
+
+Income_<- Income %>%
+  mutate(
+    annual_Pay = gsub("£|,", "", Gross.Annual.Pay...2015.),
+    Male_income = gsub("£|,", "",Gross.Annual.Pay...Male..2015.),
+    Female_income = gsub("£|,", "",Gross.Annual.Pay...Female..2015.)
+     )|>
+  
+  mutate(Annual_Pay_n = as.character(as.numeric(annual_Pay)),
+         Male_Income_n = as.character(as.numeric(Male_income)),
+         Female_Income_n = as.character(as.numeric(Female_income))
+         )
+Income_by_gender <- Income_ %>%
+  mutate(
+    Male_Income_n = as.numeric(as.character(Male_Income_n)),
+    Female_Income_n = as.numeric(as.character(Female_Income_n)),
+    Gender_pay_gap = round((Male_Income_n - Female_Income_n) / Male_Income_n * 100,1)
+  )|>
+  select(Area.name,Annual_Pay_n,Male_Income_n,Female_Income_n,Gender_pay_gap)|>
+  arrange(desc(Gender_pay_gap))|>
+  head(10)
+
+ Income_by_gender
+```
+
+
