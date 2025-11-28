@@ -1,0 +1,93 @@
+---
+title: "Task 4"
+author: "Terézia Balážová"
+date: "29.11.2025"
+format:
+  html:
+    embed-resources: true
+editor: source
+---
+
+# London
+
+#greeting
+
+```{r}
+Welcome_to_London <- function(LONDON_f){
+  cat("---------------/n")
+  cat("Analysis Toolkit for[LONDON_f]/n ")
+  cat("Report prepared by:", "LONDON_f","/n")
+  cat("---------------/n")
+}
+# call function
+
+Welcome_to_London(LONDON_f)
+```
+
+#load real data
+
+```{r}
+library(dplyr)
+library(readxl)
+```
+
+# load and inspect
+
+```{r}
+load_London_data <- function(file_path){
+  LONDON_real_data <- read.csv("london-borough-profiles-2016 Data set.csv")
+  print("Data loaded successfully")
+  print(glimpse(LONDON_real_data))
+  cat("\n--- First 10 Rows: ---\n")
+  print(head(LONDON_real_data))
+  return(LONDON_real_data)
+  }
+
+LONDON_f <- load_London_data("https://www.kaggle.com/datasets/rahulnadar123/housing-in-london-boroughs/data?select=london-borough-profiles-2016+Data+set.csv")
+```
+
+# Query function
+
+```{r}
+# turn into FUNCTION 
+filter_household_density <- function(LONDON_f, Area_name){
+  result <- LONDON_f|>
+    filter(!is.na(GLA.Population.Estimate.2016)& !is.na(GLA.Household.Estimate.2016))|>
+    mutate(household_density = as.numeric(as.character(GLA.Population.Estimate.2016))/ as.numeric(as.character(GLA.Household.Estimate.2016)) )|>
+    select(Area.name, household_density) |>
+    filter(Area.name == area_name)
+    return(result)
+}
+
+# calling new function 
+area_household_density <- filter_household_density
+#print 
+print (area_household_density)
+```
+
+# reporting Function
+
+```{r}
+colnames(LONDON_f)[colnames(LONDON_f) == "Area.name"] <- "Area"
+      colnames(LONDON_f)
+# report
+generate_report <- function(Area_data,Area){
+    Area_data <- LONDON_f|>
+    filter (Area == Bexley )
+    # Calculate stats
+    avg_age <- mean(Area_data$Average.Age..2016, na.rm = TRUE)
+    max_unempl <- max(Area_data$Unemployment.rate..2015.,na.rm = TRUE)
+    min_unempl <- min(Area_data$Unemployment.rate..2015.,na.rm = TRUE)
+    crime_rate <- length(Area_data$GLA.Population.Estimate.2016)
+    record_count <- nrow(Area_data)
+    # Print the report
+    cat("--- Report for:", area_name, "---\n")
+    cat("Average age:",avg_age,"\n")
+    cat("maximum unemployment",max_unempl ,"\n")
+    cat("minimum unemployment", min_unempl, "\n")
+    cat("criame rate", crime_rate,"\n")
+    cat("-----------------------------\n\n")  
+}
+    # Call 
+generate_report
+```
