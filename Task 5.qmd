@@ -22,27 +22,13 @@ library(readxl)
 LONDON_real_data <- read.csv("london-borough-profiles-2016 Data set.csv")
 ```
 
-### inspect real data London
-
-```{r}
-glimpse(LONDON_real_data)
-
-head(LONDON_real_data,10)
-
-summary(LONDON_real_data,10)
-```
-
 ### The Interrogation
 ```{r}
 # 1.Select all areas that are located in Inner London.
 inner_London <- LONDON_real_data |>
   select(Area.name,Inner..Outer.London, Employment.rate......2015.)|>
   mutate(log_inner_london =Inner..Outer.London == "Inner London")
-
-head(inner_London,10)
-
 ```
-
 
 ```{r}
 # 2.what is the largest migrant population?
@@ -179,4 +165,5 @@ ggplot(data = Income_by_gender, aes(x = Gender_pay_gap))+
 ```{r}
 ggsave("London_plot.png", width = 6, height = 6)
 ```
+
 
